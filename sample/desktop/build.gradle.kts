@@ -2,17 +2,15 @@ import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
-    alias(libs.plugins.compose.compiler)
-    alias(libs.plugins.composeMultiplatform)
+    alias(libs.plugins.composeCompiler)
+    alias(libs.plugins.jetbrainsCompose)
 }
 
 kotlin {
-    jvm {
-        withJava()
-    }
+    jvm()
 
     sourceSets.jvmMain.dependencies {
-        implementation(projects.sample.common)
+        implementation(projects.deps.libs.richTextEditor.sample.common)
         implementation(compose.desktop.currentOs)
     }
 }

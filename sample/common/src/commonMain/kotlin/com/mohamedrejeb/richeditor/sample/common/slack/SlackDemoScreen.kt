@@ -23,9 +23,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import bubbles.deps.libs.rich_text_editor.sample.common.generated.resources.Res
+import bubbles.deps.libs.rich_text_editor.sample.common.generated.resources.slack_logo
 import com.mohamedrejeb.richeditor.annotation.ExperimentalRichTextApi
-import com.mohamedrejeb.richeditor.common.generated.resources.Res
-import com.mohamedrejeb.richeditor.common.generated.resources.slack_logo
 import com.mohamedrejeb.richeditor.model.RichTextState
 import com.mohamedrejeb.richeditor.model.rememberRichTextState
 import com.mohamedrejeb.richeditor.ui.material3.RichText
@@ -75,10 +75,12 @@ fun SlackDemoScreen(
                                 Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
                             }
                         },
-                        colors = TopAppBarDefaults.mediumTopAppBarColors(
+                        colors = TopAppBarDefaults.topAppBarColors(
                             containerColor = Color(0xFF1a1d21),
-                            titleContentColor = Color.White,
+                            scrolledContainerColor = Color.Unspecified,
                             navigationIconContentColor = Color.White,
+                            titleContentColor = Color.White,
+                            actionIconContentColor = Color.Unspecified
                         )
                     )
 

@@ -4,8 +4,8 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
-    alias(libs.plugins.compose.compiler)
-    alias(libs.plugins.composeMultiplatform)
+    alias(libs.plugins.composeCompiler)
+    alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.bcv)
     id("module.publication")
@@ -19,7 +19,7 @@ kotlin {
         publishLibraryVariants("release")
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
         compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_1_8)
+            jvmTarget.set(JvmTarget.JVM_21)
         }
     }
 
@@ -47,7 +47,7 @@ kotlin {
     iosSimulatorArm64()
 
     sourceSets.commonMain.dependencies {
-        implementation(projects.richeditorCompose)
+        implementation(projects.deps.libs.richTextEditor.richeditorCompose)
 
         implementation(compose.ui)
         implementation(compose.foundation)
@@ -69,8 +69,8 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
     }
 }
 

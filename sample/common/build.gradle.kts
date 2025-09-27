@@ -4,8 +4,8 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
-    alias(libs.plugins.compose.compiler)
-    alias(libs.plugins.composeMultiplatform)
+    alias(libs.plugins.composeCompiler)
+    alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.androidLibrary)
 }
 
@@ -15,14 +15,14 @@ kotlin {
     androidTarget {
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
         compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_1_8)
+            jvmTarget.set(JvmTarget.JVM_21)
         }
     }
 
     jvm("desktop") {
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
         compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_11)
+            jvmTarget.set(JvmTarget.JVM_21)
         }
     }
 
@@ -51,22 +51,22 @@ kotlin {
         @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
         implementation(compose.components.resources)
 
-        implementation(projects.richeditorCompose)
-        implementation(projects.richeditorComposeCoil3)
+        implementation(projects.deps.libs.richTextEditor.richeditorCompose)
+        implementation(projects.deps.libs.richTextEditor.richeditorComposeCoil3)
 
         // Coil
         implementation(libs.coil.compose)
         implementation(libs.coil.svg)
-        implementation(libs.coil.network.ktor)
+        implementation(libs.coil.network.ktor3)
 
         // Ktor
         implementation(libs.ktor.client.core)
 
         // Lifecycle
-        implementation(libs.lifecycle.viewmodel.compose)
+        implementation(libs.androidx.lifecycle.viewmodel)
 
         // Navigation
-        implementation(libs.navigation.compose)
+        implementation(libs.jetbrains.compose.navigation)
     }
 
     sourceSets.androidMain.dependencies {
@@ -99,14 +99,13 @@ kotlin {
 android {
     namespace = "com.mohamedrejeb.richeditor.sample.common"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
-    sourceSets["main"].resources.srcDirs("src/commonMain/resources")
-
+    sourceSets["main"].resources.srcDirs("src/commonMain/composeResources")
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
     }
 }

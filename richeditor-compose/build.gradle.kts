@@ -1,12 +1,11 @@
 import org.jetbrains.compose.ExperimentalComposeLibrary
-import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
-    alias(libs.plugins.compose.compiler)
-    alias(libs.plugins.composeMultiplatform)
+    alias(libs.plugins.composeCompiler)
+    alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.bcv)
     id("module.publication")
@@ -18,22 +17,24 @@ kotlin {
 
     androidTarget {
         publishLibraryVariants("release")
-        @OptIn(ExperimentalKotlinGradlePluginApi::class)
         compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_1_8)
+            jvmTarget.set(JvmTarget.JVM_21)
         }
     }
 
     jvm("desktop") {
-        @OptIn(ExperimentalKotlinGradlePluginApi::class)
         compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_11)
+            jvmTarget.set(JvmTarget.JVM_21)
         }
     }
 
-    js(IR).browser()
+    js(IR) {
+        outputModuleName = "RichTextEditorJs"
+        browser()
+    }
     @OptIn(ExperimentalWasmDsl::class)
     wasmJs {
+        outputModuleName = "RichTextEditorComposeWasm"
         browser {
             testTask {
                 enabled = false
@@ -41,9 +42,16 @@ kotlin {
         }
     }
 
-    iosX64()
-    iosArm64()
-    iosSimulatorArm64()
+    listOf(
+        iosX64(),
+        iosArm64(),
+        iosSimulatorArm64()
+    ).forEach { iosTarget ->
+        iosTarget.binaries.framework {
+            baseName = "ComposeApp"
+            isStatic = true
+        }
+    }
 
     sourceSets.commonMain.dependencies {
         implementation(compose.runtime)
@@ -80,9 +88,26 @@ android {
         consumerProguardFile("proguard-rules.pro")
     }
 
+    java {
+        toolchain {
+            languageVersion.set(
+                JavaLanguageVersion.of(JavaVersion.VERSION_21.majorVersion.toInt())
+            )
+        }
+    }
+    kotlin {
+        jvmToolchain {
+            languageVersion.set(
+                JavaLanguageVersion.of(JavaVersion.VERSION_21.majorVersion.toInt())
+            )
+        }
+    }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
+    }
+    buildFeatures {
+        compose = true
     }
 }
 

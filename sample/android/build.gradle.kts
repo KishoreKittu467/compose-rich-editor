@@ -1,8 +1,9 @@
 plugins {
-    alias(libs.plugins.kotlinAndroid)
-    alias(libs.plugins.compose.compiler)
-    alias(libs.plugins.composeMultiplatform)
+//    alias(libs.plugins.kotlinAndroid)
+    alias(libs.plugins.composeCompiler)
+    alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.androidApplication)
+    alias(libs.plugins.kotlinAndroid)
 }
 
 android {
@@ -21,11 +22,8 @@ android {
         compose = true
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
-    kotlinOptions {
-        jvmTarget = "1.8"
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
     }
     packaging {
         resources {
@@ -45,8 +43,10 @@ android {
         }
     }
     dependencies {
-        implementation(projects.sample.common)
-
-        implementation(libs.activity.compose)
+        implementation(projects.deps.libs.richTextEditor.sample.common)
+        implementation(libs.compose.activity)
     }
+}
+dependencies {
+    implementation(libs.androidx.core.ktx)
 }
