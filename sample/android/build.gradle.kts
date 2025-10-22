@@ -1,5 +1,4 @@
 plugins {
-//    alias(libs.plugins.kotlinAndroid)
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.androidApplication)
@@ -7,14 +6,14 @@ plugins {
 }
 
 android {
-    namespace = "com.mohamedrejeb.richeditor.android"
+    namespace = "com.mohamedrejeb.richeditor"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.compileSdk.get().toInt()
 
-        applicationId = "com.mohamedrejeb.richeditor.android"
+        applicationId = "com.mohamedrejeb.richeditor"
         versionCode = 1
         versionName = "1.0"
     }
