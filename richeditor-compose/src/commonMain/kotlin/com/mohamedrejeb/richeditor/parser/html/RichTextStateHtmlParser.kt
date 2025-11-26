@@ -80,7 +80,7 @@ internal object RichTextStateHtmlParser : RichTextStateParser<String> {
 
                 if (name == "ul" || name == "ol") {
                     // Todo: Apply ul/ol styling if exists
-                    currentListLevel = currentListLevel + 1
+                    currentListLevel += 1
                     return@onOpenTag
                 }
 
